@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container mt-4">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ชื่อธุรกรรม</th>
+                    <th>จำนวนเงิน</th>
+                    <th>ประเภท</th>
+                    <th>วันที่บันทึกข้อมูล</th>
+                    <th>ลบ</th>
+                    <th>แก้ไข</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in statements %}
+                <tr>
+                    <td>{{item.description}}</td>
+                    <td>{{item.amount | currencyFormat}}</td>
+                    <td>
+                        {% if item.type in ['income','รายรับ'] %}
+                            <span class="badge" style="background-color:#d4edda;color:#155724;">{{ item.type }}</span>
+                        {% elif item.type in ['expense','รายจ่าย'] %}
+                            <span class="badge" style="background-color:#f8d7da;color:#721c24;">{{ item.type }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ item.type }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{item.date}}</td>
+                    <td>
+                        <a href="/delete/{{item.id}}" class="btn btn-sm btn-danger">ลบ</a>
+                    </td>
+                    <td>
+                        <a href="/edit/{{item.id}}" class="btn btn-sm btn-success">แก้ไข</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
